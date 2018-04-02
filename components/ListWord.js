@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 export class ListWord extends Component {
     constructor(props) {
@@ -16,14 +16,18 @@ export class ListWord extends Component {
 
     renderItem({ item }) {
         return (
-            <View>
+            <View style={styles.userContainer}>
                 <Image source={{ uri: item.avatar }} style={styles.avatar} />
-                <Text>{item.name}</Text>
-                <Text>{item.email}</Text>
+                <View style={{ justifyContent: 'space-around' }}>
+                    <Text>{item.name}</Text>
+                    <Text>{item.email}</Text>
+                    <TouchableOpacity style={styles.button}>
+                        <Text style={styles.buttonText}>Show Info</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     }
-
     render() {
         return (
             <View style={styles.container}>
@@ -45,6 +49,25 @@ const styles = StyleSheet.create({
     avatar: {
         width: 100,
         height: 100,
-        borderRadius: 50
+        borderRadius: 50,
+        marginRight: 20
+    },
+    userContainer: {
+        flexDirection: 'row',
+        padding: 10,
+        borderColor: '#AA9AC0',
+        borderWidth: 0.5,
+        margin: 10,
+        borderRadius: 5
+    },
+    button: {
+        backgroundColor: '#7A609C',
+        alignItems: 'center',
+        padding: 7,
+        borderRadius: 4
+    },
+    buttonText: {
+        color: 'white',
+        fontWeight: 'bold'
     }
 });
