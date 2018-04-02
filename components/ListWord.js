@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image } from 'react-native';
 
 export class ListWord extends Component {
     constructor(props) {
@@ -13,10 +13,25 @@ export class ListWord extends Component {
             ]
         };
     }
+
+    renderItem({ item }) {
+        return (
+            <View>
+                <Image source={{ uri: item.avatar }} style={styles.avatar} />
+                <Text>{item.name}</Text>
+                <Text>{item.email}</Text>
+            </View>
+        );
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                { this.state.users.map(u => <Text key={u._id}>{u.name}</Text>) }
+                <FlatList
+                    data={this.state.users}
+                    renderItem={this.renderItem}
+                    keyExtractor={item => item._id}
+                />
             </View>
         );
     }
@@ -26,5 +41,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#EFEEF6'
+    },
+    avatar: {
+        width: 100,
+        height: 100,
+        borderRadius: 50
     }
 });
