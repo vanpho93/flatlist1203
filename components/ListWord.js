@@ -1,18 +1,19 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Image, TouchableOpacity, RefreshControl } from 'react-native';
 import axios from 'axios';
 
 export class ListWord extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            users: []
+            users: [],
+            isRefreshing: true
         };
     }
 
     componentDidMount() {
         this.getMoreUsers()
-        .then(users => this.setState({ users }));
+        .then(users => this.setState({ users, isRefreshing: false }));
     }
 
     getMoreUsers() {
@@ -41,6 +42,15 @@ export class ListWord extends Component {
                     data={this.state.users}
                     renderItem={this.renderItem}
                     keyExtractor={item => item._id}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={this.state.isRefreshing}
+                            onRefresh={() => {
+                                this.getMoreUsers()
+                                .then(users => this.setState({ users: users.concat(this.state.users) }))
+                            }}
+                        />
+                    }
                 />
             </View>
         );
